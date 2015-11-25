@@ -1,0 +1,37 @@
+{
+  "name": "butterfly-js",
+  "version": "0.0.0",
+  "license": "MIT",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cowalla/butterfly_js.git"
+  },
+  "scripts": {
+    "start": "gulp",
+    "test": "gulp test",
+    "lint": "gulp lint:js"
+  },
+  "dependencies": {
+    "mathjs": "^2.4.2",
+    "numeric": "^1.2.6"
+  },
+  "devDependencies": {
+    "browserify": "*",
+    "chai": "*",
+    "d3": "*",
+    "eslint": "*",
+    "eslint-plugin-mocha": "*",
+    "gulp": "*",
+    "gulp-eslint": "*",
+    "gulp-mocha": "*",
+    "gulp-rename": "*",
+    "gulp-util": "*",
+    "jsdom": "^7.0.2",
+    "jquery": "*",
+    "mocha": "*",
+    "require-directory": "*",
+    "vinyl-source-stream": "*",
+    "watchify": "*"
+  }
+}

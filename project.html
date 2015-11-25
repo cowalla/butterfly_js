@@ -1,15 +1,33 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8">
         <title>My Sample Project</title>
-        <!-- data-main attribute tells require.js to load
-             scripts/main.js after require.js loads. -->
-        <script data-main="scripts/main" src="scripts/require.js"></script>
+        <script src="lib/butterfly-js.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
     </head>
     <body>
         <h1>My Sample Project</h1>
-        <div id="abc123">
-            My fun replacement text
+        <div id="butterfly-wrapper">
+            Loading...
         </div>
+        <div data-role="page">
+          <div data-role="header">
+            <h1>Range Slider</h1>
+          </div>
+
+          <div data-role="main" class="ui-content">
+              <div data-role="range-slider">
+                <label for="size-slider">Size:</label>
+                <input type="range" name="size-slider" id="size-slider" value="50" min="0" max="300">
+              </div>
+              <div data-role="range-slider">
+                <label for="slices-slider">Slices:</label>
+                <input type="range" name="slices-slider" id="slices-slider" value="50" min="0" max="300">
+              </div>
+          </div>
+        </div>
+        <script>butterflyJs()</script>
     </body>
 </html>
