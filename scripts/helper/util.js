@@ -1,6 +1,6 @@
-define(function(require){
-    var math = require('helper/math');
-    var numeric = require('helper/numeric');
+define(['require', 'packages/math', 'packages/numeric'], function(require){
+    require('packages/numeric');
+    var math = require('packages/math');
 
     var constructMatrix = function (g, a, size){
         var _matrix = numeric.identity(size),
