@@ -1,4 +1,5 @@
 define(['require', 'packages/math', 'packages/numeric'], function(require){
+    // numeric defined passively through 'require'
     require('packages/numeric');
     var math = require('packages/math');
 
@@ -26,8 +27,8 @@ define(['require', 'packages/math', 'packages/numeric'], function(require){
             return [index - 1, index + 1]
         }
     };
-    var calculateEigenvalues = function(matrix){
-        return numeric.eig(matrix);
+    var calculateEigenvalues = function(matrix, a){
+        return [a, numeric.eig(matrix).lambda.x];
     };
 
     return {
