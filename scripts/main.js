@@ -12,20 +12,17 @@ require(['helper/util', 'helper/display'], function(util, display) {
         var canvasWidth = canvas.width;
         var canvasHeight = canvas.height;
         var ctx = canvas.getContext("2d");
-        var canvasData = ctx.createImageData(canvasWidth, canvasHeight);
 
         var createButterfly = function(){
-            var data = display.drawEigenvalueSet(
+            var newImageData = display.drawEigenvalueSet(
                 size,
                 eigenvalueSet,
                 canvasWidth,
                 canvasHeight,
-                ctx,
-                canvasData
+                ctx
             );
 
-            canvasData.data = data;
-            ctx.putImageData(canvasData, 0, 0);
+            ctx.putImageData(newImageData, 0, 0);
         };
 
 
@@ -34,3 +31,5 @@ require(['helper/util', 'helper/display'], function(util, display) {
     }
 );
 
+
+//for(var i=0; i<100000; i++){if(newImageData.data[i]!=0){console.log(i)}}

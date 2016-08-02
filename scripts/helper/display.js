@@ -6,29 +6,29 @@ define(['require', 'helper/util'], function(require) {
         eigenvalueSet,
         canvasWidth,
         canvasHeight,
-        ctx,
-        canvasData
+        ctx
     ){
         // the eigenvalueSet should come in the form,
         //    [[alpha_1, [ -- eigenvalues -- ], ], [alpha_2, [ -- eigenvalues -- ], ], ... ]
-        var data = canvasData.data;
+        var canvasData = ctx.createImageData(canvasWidth, canvasHeight);
 
-        for (j=0; j < size; j++) {
+        for (var j=0; j < size; j++) {
             var jCanvas = Math.floor(j * canvasHeight / size);
             var canvasStart = jCanvas * canvasWidth;
             var alpha = eigenvalueSet[j][0];
             var eigSet = eigenvalueSet[j][1];
 
-            for (i = 0; i < size; i++) {
+            for (var i = 0; i < size; i++) {
                 var ind = 4 * (eigenvalueToCanvasPoint(alpha, eigSet[i], canvasWidth) + canvasStart);
 
-                data[ind] = 255;
-                data[ind + 1] = 0;
-                data[ind + 2] = 0;
-                data[ind + 3] = 1.0;
+                canvasData.data[ind] = 255;
+                canvasData.data[ind + 1] = 0;
+                canvasData.data[ind + 2] = 0;
+                canvasData.data[ind + 3] = 1.0;
             }
         }
-        return data
+
+        return canvasData
     };
 
     var eigenvalueToCanvasPoint = function (a, e, canvasWidth) {
