@@ -28,6 +28,8 @@ define(['require', 'helper/util'], function(require) {
             }
         }
 
+        ctx.putImageData(canvasData, 0, 0);
+
         return canvasData
     };
 

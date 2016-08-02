@@ -1,6 +1,7 @@
-define(['require', 'packages/math', 'packages/numeric', 'packages/algebra'], function(require){
+define(['require', 'packages/math', 'packages/numeric', 'packages/algebra', 'packages/jsfeat'], function(require){
     // numeric defined passively through 'require'
     require('packages/numeric');
+    require('packages/jsfeat');
     var algebra = require('packages/algebra');
     var math = require('packages/math');
 
@@ -29,13 +30,15 @@ define(['require', 'packages/math', 'packages/numeric', 'packages/algebra'], fun
         }
     };
     var calculateEigenvalues = function(matrix, a){
-        return [a, numeric.eig(matrix).lambda.x];
+        //return [a, numeric.eig(matrix).lambda.x];
+        return [a, numeric.svd(matrix).S]
     };
 
     var polynomialForContinuantOfBandedMatrix = function(matrix){
         // https://en.wikipedia.org/wiki/Tridiagonal_matrix#Determinant
         // f(1) = a(1)
         // f(n) = a(n) * f(n-1) - c(n-1) * b(n-1) * f(n-2)
+        // Sadly, I would need to find the zeroes of a polynomial of order n to use this.
 
         var size = matrix.length;
         var lastIndex = size - 1;
@@ -63,6 +66,8 @@ define(['require', 'packages/math', 'packages/numeric', 'packages/algebra'], fun
     };
 
     var iterativeMethod = function(matrix) {
+        // Sadly, I would need to find the zeroes of a polynomial of order n to use this.
+
         var size = matrix.length;
         var _matrix = matrix.slice();
 

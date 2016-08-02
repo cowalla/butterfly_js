@@ -1,6 +1,6 @@
-require(['helper/util', 'helper/display', 'packages/algebra'], function(util, display) {
+require(['helper/util', 'helper/display'], function(util, display) {
         var eigenvalueSet = [];
-        var sz = 20.0;
+        var sz = 70.0;
         var size = parseFloat(sz);
 
         var canvas = document.getElementById('display-canvas');
@@ -9,28 +9,35 @@ require(['helper/util', 'helper/display', 'packages/algebra'], function(util, di
         var ctx = canvas.getContext("2d");
 
         var createButterfly = function(){
+            sz = sizeSlider.value;
+            size = parseFloat(sz);
+
             for(var i=0.0; i<size; i++){
                 var a = i / sz;
                 var matrix = util.constructMatrix(0, a, size);
-                var b = util.iterativeMethod(matrix);
                 eigenvalueSet.push(util.calculateEigenvalues(matrix, a))
             }
 
-
-            var newImageData = display.drawEigenvalueSet(
+            display.drawEigenvalueSet(
                 size,
                 eigenvalueSet,
                 canvasWidth,
                 canvasHeight,
                 ctx
             );
-
-            ctx.putImageData(newImageData, 0, 0);
         };
 
+        var clear = function(){
+            ctx.putImageData(ctx.createImageData(canvasWidth, canvasHeight), 0, 0)
+        };
 
         var createButterflyBtn = document.getElementById('createButterfly');
         createButterflyBtn.addEventListener('click', createButterfly);
+
+        var clearBtn = document.getElementById('clear');
+        clearBtn.addEventListener('click', clear);
+
+        var sizeSlider = document.getElementById('size');
     }
 );
 
