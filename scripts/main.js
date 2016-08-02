@@ -1,6 +1,6 @@
-require(['helper/util', 'helper/display'], function(util, display) {
+require(['helper/util', 'helper/display', 'packages/algebra'], function(util, display) {
         var eigenvalueSet = [];
-        var sz = 25.0;
+        var sz = 20.0;
         var size = parseFloat(sz);
 
         var canvas = document.getElementById('display-canvas');
@@ -12,6 +12,7 @@ require(['helper/util', 'helper/display'], function(util, display) {
             for(var i=0.0; i<size; i++){
                 var a = i / sz;
                 var matrix = util.constructMatrix(0, a, size);
+                var b = util.iterativeMethod(matrix);
                 eigenvalueSet.push(util.calculateEigenvalues(matrix, a))
             }
 

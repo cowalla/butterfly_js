@@ -1,6 +1,7 @@
-define(['require', 'packages/math', 'packages/numeric'], function(require){
+define(['require', 'packages/math', 'packages/numeric', 'packages/algebra'], function(require){
     // numeric defined passively through 'require'
     require('packages/numeric');
+    var algebra = require('packages/algebra');
     var math = require('packages/math');
 
     var constructMatrix = function (g, a, size){
@@ -31,8 +32,121 @@ define(['require', 'packages/math', 'packages/numeric'], function(require){
         return [a, numeric.eig(matrix).lambda.x];
     };
 
+    var polynomialForContinuantOfBandedMatrix = function(matrix){
+        // https://en.wikipedia.org/wiki/Tridiagonal_matrix#Determinant
+        // f(1) = a(1)
+        // f(n) = a(n) * f(n-1) - c(n-1) * b(n-1) * f(n-2)
+
+        var size = matrix.length;
+        var lastIndex = size - 1;
+
+        // boundary condition
+        if(size === 0){
+            return new algebra.Expression(1);
+        }
+
+        if(size === 1){
+            return _entryMinusLambda(matrix[0][0])
+        }
+
+        var matrixMinus = _reduceMatrixSize(matrix);
+        var matrixMinusMinus = _reduceMatrixSize(matrixMinus);
+        var an = _entryMinusLambda(matrix[lastIndex][lastIndex]);
+        var cnminus = _entryMinusLambda(matrix[lastIndex - 1][lastIndex]);
+        var bnminus = _entryMinusLambda(matrix[lastIndex][lastIndex - 1]);
+        var fnminus = polynomialForContinuantOfBandedMatrix(matrixMinus);
+        var fnminusminus = polynomialForContinuantOfBandedMatrix(matrixMinusMinus);
+
+        return an.multiply(fnminus).subtract(
+            cnminus.multiply(bnminus).multiply(fnminusminus)
+        )
+    };
+
+    var iterativeMethod = function(matrix) {
+        var size = matrix.length;
+        var _matrix = matrix.slice();
+
+        // boundary conditions
+        if(size === 0){
+            return new algebra.Expression(1)
+        }
+
+        if(size === 1){
+            return _entryMinusLambda(_matrix[0][0])
+        }
+
+        var detMinusMinus = _entryMinusLambda(_matrix[0][0]).multiply(_entryMinusLambda(_matrix[1][1])).subtract(
+            new algebra.Expression(_matrix[0][1]*_matrix[1][0])
+        );
+
+        if(size === 2){
+            return detMinusMinus
+        }
+
+        var detMinus = _entryMinusLambda(_matrix[2][2]).multiply(detMinusMinus).subtract(
+            new algebra.Expression(_matrix[1][2]*_matrix[2][1]).multiply(_entryMinusLambda(_matrix[0][0]))
+        );
+
+        if(size === 3){
+            return detMinus
+        }
+
+        var det;
+
+        for(var j=4; j<size-1; j++){
+            var bminus = _matrix[j-1][j],
+                cminus = _matrix[j][j-1];
+
+            det = _entryMinusLambda(_matrix[j][j]).multiply(detMinus).subtract(
+                new algebra.Expression(bminus * cminus).multiply(detMinusMinus)
+            );
+
+            detMinusMinus = detMinus;
+            detMinus = det;
+        }
+
+        return det
+    };
+
+    var _entryMinusLambda = function(entry){
+        var _lambda = algebra.parse('-l');
+
+        return _lambda.add(entry);
+    };
+
+    var _toeplitzEigenvalue = function(n, k, a, b, c){
+        return a + 2 * sqrt(b * c) * math.cos( math.pi * k / (n + 1) )
+    };
+
+    var eigenvaluesForToeplitz = function(size, a, b, c){
+        var eigenvalues = [];
+
+        for(var i=0; i<size; i++){
+            eigenvalues.push(
+                _toeplitzEigenvalue(size, i, a, b, c)
+            )
+        }
+
+        return eigenvalues;
+    };
+
+    var _reduceMatrixSize = function(matrix){
+        // take off end array
+        var _matrix = matrix.slice(0, -1);
+
+        // take off last element of each array
+        for(var i=0; i<_matrix.length; i++){
+            _matrix[i] = _matrix[i].slice(0, -1)
+        }
+
+        return _matrix
+    };
+
     return {
         'calculateEigenvalues': calculateEigenvalues,
-        'constructMatrix': constructMatrix
+        'constructMatrix': constructMatrix,
+        'polynomialForContinuantOfBandedMatrix': polynomialForContinuantOfBandedMatrix,
+        'iterativeMethod': iterativeMethod,
+        'eigenvaluesForToeplitz': eigenvaluesForToeplitz
     };
 });
