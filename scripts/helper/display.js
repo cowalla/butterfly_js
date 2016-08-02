@@ -24,7 +24,7 @@ define(['require', 'helper/util'], function(require) {
                 canvasData.data[ind] = 255;
                 canvasData.data[ind + 1] = 0;
                 canvasData.data[ind + 2] = 0;
-                canvasData.data[ind + 3] = 1.0;
+                canvasData.data[ind + 3] = 255;
             }
         }
 
