@@ -1,21 +1,18 @@
 require(['helper/util', 'helper/display'], function(util, display) {
-        var eigenvalueSet = [];
-        var sz = 70.0;
-        var size = parseFloat(sz);
-
         var canvas = document.getElementById('display-canvas');
         var canvasWidth = canvas.width;
         var canvasHeight = canvas.height;
         var ctx = canvas.getContext("2d");
 
         var createButterfly = function(){
-            sz = sizeSlider.value;
-            size = parseFloat(sz);
+            var eigenvalueSet = [];
+            var sz = sizeSlider.value;
+            var size = parseFloat(sz);
 
             for(var i=0.0; i<size; i++){
                 var a = i / sz;
-                var matrix = util.constructMatrix(0, a, size);
-                eigenvalueSet.push(util.calculateEigenvalues(matrix, a))
+                var _matrix = util.constructMatrixWithJsFeat(a, size);
+                eigenvalueSet.push(util.calculateEigenvaluesWithJsFeat(_matrix, a))
             }
 
             display.drawEigenvalueSet(
@@ -40,6 +37,3 @@ require(['helper/util', 'helper/display'], function(util, display) {
         var sizeSlider = document.getElementById('size');
     }
 );
-
-
-//for(var i=0; i<100000; i++){if(newImageData.data[i]!=0){console.log(i)}}

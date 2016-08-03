@@ -35,7 +35,7 @@ define(['require', 'helper/util'], function(require) {
 
     var eigenvalueToCanvasPoint = function (a, e, canvasWidth) {
         // Eigenvalues in the Hofstadter Butterfly lie in [-4, 4]
-        return Math.floor(canvasWidth * (e + 4.0) / 8.0 + a);
+        return Math.floor(canvasWidth * (e + 4.0) / 8.0);
     };
 
     return {
