@@ -35,5 +35,11 @@ require(['helper/util', 'helper/display'], function(util, display) {
         clearBtn.addEventListener('click', clear);
 
         var sizeSlider = document.getElementById('size');
+        var updateSizeSliderValue = function () {
+            document.getElementById('size-value').innerHTML = document.getElementById('size').value;
+            createButterfly()
+        };
+        sizeSlider.addEventListener('change', updateSizeSliderValue);
+        updateSizeSliderValue();
     }
 );

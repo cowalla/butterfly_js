@@ -125,8 +125,8 @@ var constructIndices = function(index, size){
 };
 
 var calculateEigenvalues = function(matrix, a){
-    //return [a, numeric.eig(matrix).lambda.x];
-    return [a, numeric.svd(matrix).S]
+    return [a, numeric.eig(matrix).lambda.x];
+    //return [a, numeric.svd(matrix).S]
 };
 
 var constructMatrix = function (g, a, size){

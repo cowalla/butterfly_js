@@ -8,8 +8,11 @@ define(['require', 'packages/math', 'packages/jsfeat'], function(require){
             _matrix = new jsfeat.matrix_t(size, size, data_type),
             matrixNorm = 2.0 * math.pi * a;
 
+        _matrix.data[size - 1] = 1.0;
         _matrix.data[0] = 2.0;
-        _matrix.data[1] = - 1.0;
+        _matrix.data[1] = 1.0;
+
+        _matrix.data[size*(size - 1)] = 1.0;
         _matrix.data[(size*size) - 1] = 2.0 * math.cos(matrixNorm*size);
         _matrix.data[(size*size) - 2] = 1.0;
 
