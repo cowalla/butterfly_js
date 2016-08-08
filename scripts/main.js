@@ -40,6 +40,7 @@ require(['helper/util', 'helper/display'], function(util, display) {
             createButterfly()
         };
         sizeSlider.addEventListener('change', updateSizeSliderValue);
+
         updateSizeSliderValue();
     }
 );
